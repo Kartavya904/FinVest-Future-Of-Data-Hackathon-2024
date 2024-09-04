@@ -1,0 +1,574 @@
+@page
+@model IndexModel
+
+<div class="container">
+
+    <form id="stockForm" class="form-styled">
+        <div class="form-group">
+            <label for="symbol">Stock Symbol:</label>
+            <input type="text" id="symbol" class="form-control input-styled" placeholder="Enter stock symbol" required>
+        </div>
+        <div class="form-group" id="intervalDiv">
+            <label for="interval">Time Interval:</label>
+            <select id="interval" class="form-control select-styled" required>
+                <option value="1min">1 Minute</option>
+                <option value="5min">5 Minutes</option>
+                <option value="15min">15 Minutes</option>
+                <option value="30min">30 Minutes</option>
+                <option value="60min">1 Hour</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="function">Data Type:</label>
+            <select id="function" class="form-control select-styled" required>
+                <option value="TIME_SERIES_INTRADAY">Intraday</option>
+                <option value="TIME_SERIES_DAILY">Daily</option>
+                <option value="TIME_SERIES_WEEKLY">Weekly</option>
+                <option value="TIME_SERIES_MONTHLY">Monthly</option>
+            </select>
+        </div><br>
+        <button type="submit" class="btn btn-primary btn-styled">Get Data</button>
+    </form>
+
+    <canvas id="stockChart" class="chart-styled" style="margin-top: 20px;"></canvas>
+
+    <!-- Start Paper Trading Button -->
+    <button id="startTradingButton" class="btn btn-success btn-styled" style="margin-top: 20px;">Start Paper Trading</button>
+
+    <!-- Container for the embedded page -->
+    <div id="tradingContainer" style="display: none; margin-top: 20px;">
+        <iframe id="tradingFrame" src="" style="width: 100%; height: 1400px; border: none; border-radius: 10px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);"></iframe>
+    </div>
+</div>
+
+<style>
+        /* General styling */
+    body {
+        background-color: #122953;
+        font-family: 'Poppins', sans-serif;
+        color: #f0f0f0;
+    }
+
+    .navbar {
+        background-color: rgba(0, 0, 0, 0.1);
+    }
+
+    .navbar-brand, .navbar-nav .nav-link {
+        color: #ffffff;
+        font-weight: 600;
+    }
+
+    .navbar-brand img {
+        height: 50px;
+        margin-right: 10px;
+    }
+
+    .navbar-brand {
+        display: flex;
+        align-items: center;
+    }
+
+    .navbar-brand img {
+        height: 75px;
+        margin-right: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+    }
+
+    .navbar-brand .icon-text {
+        font-size: 24px;
+        font-weight: 600;
+        color: #f0f0f0;
+        text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .navbar-nav .nav-link:hover {
+        color: #76c7c0;
+        text-decoration: underline;
+    }
+
+    .icon-text:hover {
+        color: #76c7c0;
+    }
+
+    .slogan {
+        color: #76c7c0;
+        font-size: 28px;
+        font-weight: 600;
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .login-signup-links {
+        margin-left: auto;
+        display: flex;
+        gap: 15px;
+    }
+
+    .btn-styled {
+        background-color: rgba(0, 0, 0, 0.1);
+        color: #f0f0f0;
+        border-radius: 8px;
+        padding: 10px 20px;
+        font-weight: 600;
+        border: 2px solid #76c7c0;
+        transition: background-color 0.2s, transform 0.2s, box-shadow 0.2s;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+    }
+
+    .btn-styled:hover {
+        background-color: #76c7c0;
+        color: #292959;
+        transform: scale(1.05);
+        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .btn-styled:focus {
+        box-shadow: 0 0 0 0.1rem #76c7c0, 0 0 0 0.25rem #292959;
+    }
+
+    .btn-styled:active {
+        background-color: #1b6ec2;
+        color: #f0f0f0;
+        transform: scale(0.95);
+    }
+
+    .container {
+        margin-top: 20px;
+        max-width: 100%;
+        background-color: #1a2c3b;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.4);
+    }
+
+    .dashboard-title {
+        color: #76c7c0;
+        font-weight: 700;
+        margin-bottom: 30px;
+        text-align: center;
+        font-size: 2.5em;
+        text-transform: uppercase;
+    }
+
+    .form-styled {
+<<<<<<< HEAD
+        background-color: #1b2b3a;
+        padding: 20px;
+        margin-bottom: 20px;
+=======
+        background-color: #243b54;
+        padding: 25px;
+        border-radius: 10px;
+        box-shadow: 0px 5px 12px rgba(0, 0, 0, 0.3);
+        margin-bottom: 25px;
+>>>>>>> 464a047d4e55d921cb749b7fe6be30522c76c84b
+    }
+
+    .form-styled label {
+        color: #76c7c0;
+        font-weight: 600;
+        margin-bottom: 10px;
+        display: block;
+    }
+
+    .input-styled, .select-styled {
+        background-color: #1b2b3a;
+        color: #f0f0f0;
+        border: 1px solid #76c7c0;
+        border-radius: 6px;
+        padding: 12px;
+        margin-top: 15px; /* Added spacing above input boxes */
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .input-styled::placeholder {
+        color: #c0c0c0;
+    }
+
+<<<<<<< HEAD
+    .chart-styled {
+        background-color: #2a3d55;
+        display: none;
+        border-radius: 8px;
+        padding: 10px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+=======
+    .btn-styled {
+        background-color: #76c7c0;
+        color: #292959;
+        font-weight: 600;
+        padding: 12px 25px;
+        border-radius: 10px;
+        transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+        box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+        margin-top: 15px; /* Added spacing above buttons */
+    }
+
+    .btn-styled:hover {
+        background-color: #5ba9a6;
+        transform: scale(1.08);
+        box-shadow: 0 8px 12px rgba(0, 0, 0, 0.25);
+    }
+
+    .chart-styled {
+        background-color: #243b54;
+        border-radius: 10px;
+        padding: 15px;
+        box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+>>>>>>> 464a047d4e55d921cb749b7fe6be30522c76c84b
+    }
+
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.getElementById('function').addEventListener('change', function() {
+        var dataType = document.getElementById('function').value;
+        var intervalDiv = document.getElementById('intervalDiv');
+
+        if (dataType === "TIME_SERIES_INTRADAY") {
+            intervalDiv.style.display = 'block'; // Show time interval for Intraday
+            document.getElementById('interval').required = true;
+        } else {
+            intervalDiv.style.display = 'none'; // Hide time interval for other data types
+            document.getElementById('interval').required = false;
+        }
+    });
+
+    document.getElementById('stockForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        var symbol = document.getElementById('symbol').value;
+        var interval = document.getElementById('interval').value;
+        var dataType = document.getElementById('function').value;
+
+        fetchStockData(symbol, interval, dataType);
+    });
+
+    function fetchStockData(symbol, interval, dataType) {
+        var url;
+        if (dataType === "TIME_SERIES_INTRADAY") {
+            url = `https://www.alphavantage.co/query?function=${dataType}&symbol=${symbol}&interval=${interval}&apikey=XRD89UZWKY7V5DCX`;
+        } else {
+            url = `https://www.alphavantage.co/query?function=${dataType}&symbol=${symbol}&apikey=XRD89UZWKY7V5DCX`;
+        }
+
+        fetch(url)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                updateChart(data, dataType)
+            })
+            .catch(error => console.error('Error fetching stock data:', error));
+    }
+    function calculateSMA(data, windowSize) {
+        let sma = [];
+        for (let i = 0; i < data.length; i++) {
+            if (i < windowSize - 1) {
+                sma.push(null);
+            } else {
+                let sum = 0;
+                for (let j = 0; j < windowSize; j++) {
+                    sum += data[i - j];
+                }
+                sma.push(sum / windowSize);
+            }
+        }
+        return sma;
+    }
+
+    function calculateEMA(data, windowSize) {
+        let ema = [];
+        let multiplier = 2 / (windowSize + 1);
+        ema[0] = data[0];
+        for (let i = 1; i < data.length; i++) {
+            ema.push(((data[i] - ema[i - 1]) * multiplier) + ema[i - 1]);
+        }
+        return ema;
+    }
+
+    function calculateRSI(data, windowSize) {
+        let rsi = [];
+        for (let i = 0; i < data.length; i++) {
+            if (i < windowSize) {
+                rsi.push(null);
+            } else {
+                let gains = 0, losses = 0;
+                for (let j = 0; j < windowSize; j++) {
+                    let change = data[i - j] - data[i - j - 1];
+                    if (change > 0) gains += change;
+                    else losses -= change;
+                }
+                let rs = gains / losses;
+                rsi.push(100 - (100 / (1 + rs)));
+            }
+        }
+        return rsi;
+    }
+
+    function calculateMACD(data, shortWindow = 12, longWindow = 26, signalWindow = 9) {
+        let shortEMA = calculateEMA(data, shortWindow);
+        let longEMA = calculateEMA(data, longWindow);
+        let macd = shortEMA.map((val, idx) => val - longEMA[idx]);
+        let signalLine = calculateEMA(macd, signalWindow);
+        let histogram = macd.map((val, idx) => val - signalLine[idx]);
+
+        return { macd, signalLine, histogram };
+    }
+
+    function calculateVWAP(data, volumeData) {
+        let vwap = [];
+        let cumulativePriceVolume = 0;
+        let cumulativeVolume = 0;
+        for (let i = 0; i < data.length; i++) {
+            cumulativePriceVolume += data[i] * volumeData[i];
+            cumulativeVolume += volumeData[i];
+            vwap.push(cumulativePriceVolume / cumulativeVolume);
+        }
+        return vwap;
+    }
+
+    function updateChart(stockData, dataType) {
+        let timeSeries;
+
+        switch (dataType) {
+            case "TIME_SERIES_INTRADAY":
+                timeSeries = stockData["Time Series (1min)"] || stockData["Time Series (5min)"] || stockData["Time Series (15min)"] || stockData["Time Series (30min)"] || stockData["Time Series (60min)"];
+                break;
+            case "TIME_SERIES_DAILY":
+                timeSeries = stockData["Time Series (Daily)"];
+                break;
+            case "TIME_SERIES_WEEKLY":
+                timeSeries = stockData["Weekly Time Series"];
+                break;
+            case "TIME_SERIES_MONTHLY":
+                timeSeries = stockData["Monthly Time Series"];
+                break;
+            default:
+                console.error('Unexpected data type:', dataType);
+                return;
+        }
+
+        if (!timeSeries) {
+            console.error('Time series data not found for:', dataType);
+            return;
+        }
+
+        var labels = Object.keys(timeSeries).reverse();
+        var data = labels.map(label => parseFloat(timeSeries[label]["4. close"]));
+        var volumeData = labels.map(label => parseInt(timeSeries[label]["5. volume"]));
+
+        var sma20 = calculateSMA(data, 20);
+        var sma50 = calculateSMA(data, 50);
+        var ema20 = calculateEMA(data, 20);
+        var ema50 = calculateEMA(data, 50);
+        var vwap = calculateVWAP(data, volumeData);
+        var rsi = calculateRSI(data, 14);
+        var { macd, signalLine, histogram } = calculateMACD(data);
+
+        var ctx = document.getElementById('stockChart').getContext('2d');
+
+        // Check if a chart instance already exists and destroy it
+        if (window.stockChart instanceof Chart) {
+            window.stockChart.destroy();
+        }
+
+        // Create a new chart instance
+        window.stockChart = new Chart(ctx, {
+            type: 'bar', // Volume data will be displayed as bars
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'Volume',
+                        data: volumeData,
+                        backgroundColor: 'rgba(75, 192, 192, 0.5)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        type: 'bar',
+                        yAxisID: 'y-axis-1'
+                    },
+                    {
+                        label: 'Stock Prices',
+                        data: data,
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        fill: false,
+                        type: 'line',
+                        yAxisID: 'y-axis-2'
+                    },
+                    {
+                        label: 'SMA 20',
+                        data: sma20,
+                        borderColor: 'rgba(192, 75, 192, 1)',
+                        fill: false,
+                        type: 'line',
+                        yAxisID: 'y-axis-2',
+                        hidden: true
+                    },
+                    {
+                        label: 'SMA 50',
+                        data: sma50,
+                        borderColor: 'rgba(192, 192, 75, 1)',
+                        fill: false,
+                        type: 'line',
+                        yAxisID: 'y-axis-2',
+                        hidden: true
+                    },
+                    {
+                        label: 'EMA 20',
+                        data: ema20,
+                        borderColor: 'rgba(75, 192, 75, 1)',
+                        fill: false,
+                        type: 'line',
+                        yAxisID: 'y-axis-2',
+                        hidden: true
+                    },
+                    {
+                        label: 'EMA 50',
+                        data: ema50,
+                        borderColor: 'rgba(192, 75, 75, 1)',
+                        fill: false,
+                        type: 'line',
+                        yAxisID: 'y-axis-2',
+                        hidden: true
+                    },
+
+
+                    {
+                        label: 'VWAP',
+                        data: vwap,
+                        borderColor: 'rgba(192, 192, 192, 1)',
+                        fill: false,
+                        type: 'line',
+                        yAxisID: 'y-axis-2',
+                        hidden: true
+                    },
+                    {
+                        label: 'RSI',
+                        data: rsi,
+                        borderColor: 'rgba(192, 75, 75, 1)',
+                        fill: false,
+                        type: 'line',
+                        yAxisID: 'y-axis-3',
+                        hidden: true
+                    },
+                    {
+                        label: 'MACD',
+                        data: macd,
+                        borderColor: 'rgba(192, 192, 75, 1)',
+                        fill: false,
+                        type: 'line',
+                        yAxisID: 'y-axis-4',
+                        hidden: true
+                    },
+                    {
+                        label: 'MACD Signal Line',
+                        data: signalLine,
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        fill: false,
+                        type: 'line',
+                        yAxisID: 'y-axis-4',
+                        hidden: true
+                    },
+                    {
+                        label: 'MACD Histogram',
+                        data: histogram,
+                        backgroundColor: 'rgba(192, 192, 192, 1)',
+                        type: 'bar',
+                        yAxisID: 'y-axis-5',
+                        hidden: true
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                title: {
+                    display: true,
+                    text: 'Stock Price and Indicators Over Time',
+                    fontColor: '#f0f0f0'
+                },
+                tooltips: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                hover: {
+                    mode: 'nearest',
+                    intersect: true
+                },
+                scales: {
+                    xAxes: [
+                        {
+                            ticks: {
+                                fontColor: '#f0f0f0'
+                            }
+                        }
+                    ],
+                    yAxes: [
+                        {
+                            id: 'y-axis-1',
+                            type: 'linear',
+                            position: 'left',
+                            ticks: {
+                                fontColor: '#f0f0f0'
+                            }
+                        },
+                        {
+                            id: 'y-axis-2',
+                            type: 'linear',
+                            position: 'right',
+                            ticks: {
+                                fontColor: '#f0f0f0'
+                            }
+                        },
+                        {
+                            id: 'y-axis-3',
+                            type: 'linear',
+                            position: 'left',
+                            display: false, // RSI can be optionally displayed
+                            ticks: {
+                                fontColor: '#f0f0f0'
+                            }
+                        },
+                        {
+                            id: 'y-axis-4',
+                            type: 'linear',
+                            position: 'right',
+                            display: false, // MACD can be optionally displayed
+                            ticks: {
+                                fontColor: '#f0f0f0'
+                            }
+                        },
+                        {
+                            id: 'y-axis-5',
+                            type: 'linear',
+                            position: 'left',
+                            display: false, // MACD Histogram can be optionally displayed
+                            ticks: {
+                                fontColor: '#f0f0f0'
+                            }
+                        }
+                    ]
+                }
+            }
+        });
+    }
+
+
+    // Event listener for the "Start Paper Trading" button
+    document.getElementById('startTradingButton').addEventListener('click', function() {
+        var tradingContainer = document.getElementById('tradingContainer');
+        var tradingFrame = document.getElementById('tradingFrame');
+        
+        tradingContainer.style.display = 'block';  // Show the container
+        tradingFrame.src = '/Trading/Index';  // Load the /Trading/Index page into the iframe
+    });
+</script>

@@ -1,0 +1,690 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - FinVest</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <style>
+        body {
+            background-color: #122953;
+            font-family: 'Poppins', sans-serif;
+            color: #f0f0f0;
+        }
+
+        .navbar {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand, .navbar-nav .nav-link {
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        .navbar-brand img {
+            height: 50px;
+            margin-right: 10px;
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar-brand img {
+            height: 75px;
+            margin-right: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        .navbar-brand .icon-text {
+            font-size: 24px;
+            font-weight: 600;
+            color: #f0f0f0;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: #76c7c0;
+            text-decoration: underline;
+        }
+
+        .icon-text:hover {
+            color: #76c7c0;
+        }
+
+        .slogan {
+            color: #76c7c0;
+            font-size: 28px;
+            font-weight: 600;
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .login-signup-links {
+            margin-left: auto;
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn-dark-custom {
+            background-color: rgba(0, 0, 0, 0.1);
+            color: #f0f0f0;
+            border-radius: 8px;
+            padding: 10px 20px;
+            font-weight: 600;
+            border: 2px solid #76c7c0;
+            transition: background-color 0.2s, transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+        }
+
+        .btn-dark-custom:hover {
+            background-color: #76c7c0;
+            color: #292959;
+            transform: scale(1.05);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-dark-custom:focus {
+            box-shadow: 0 0 0 0.1rem #76c7c0, 0 0 0 0.25rem #292959;
+        }
+
+        .btn-dark-custom:active {
+            background-color: #1b6ec2;
+            color: #f0f0f0;
+            transform: scale(0.95);
+        }
+
+        .profile-button {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #76c7c0;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            outline: none;
+        }
+
+        footer {
+            background-color: rgba(0, 0, 0, 0.1);
+            padding: 20px 0;
+            color: #ccc;
+            text-align: center;
+        }
+
+        footer a {
+            color: #76c7c0;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* New Styles for Modals */
+        .modal-content {
+            background-color: #122953;
+            color: #f0f0f0;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-header {
+            border-bottom: 2px solid #76c7c0;
+        }
+
+        .modal-title {
+            font-weight: 600;
+            color: #76c7c0;
+        }
+
+        .modal-body {
+            color: #f0f0f0;
+        }
+
+        .form-group label {
+            color: #76c7c0;
+            font-weight: 600;
+        }
+
+        .form-styled {
+            background-color: #1b2b3a;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-styled label {
+            color: #76c7c0;
+            font-weight: 600;
+        }
+
+        .input-styled, .select-styled {
+            background-color: #1b2b3a;
+            color: #f0f0f0;
+            border: 1px solid #76c7c0;
+            border-radius: 6px;
+            padding: 10px;
+        }
+
+        .input-styled::placeholder {
+            color: #c0c0c0;
+        }
+
+        @* .form-control {
+            border: 2px solid #76c7c0;
+            border-radius: 5px;
+            background-color: #1e2a48;
+            color: #f0f0f0;
+            padding: 10px;
+            transition: all 0.3s ease-in-out;
+        } *@
+
+        .form-control:focus {
+            border-color: #76c7c0;
+            box-shadow: 0 0 0 0.1rem #76c7c0, 0 0 0 0.25rem #292959;
+        }
+
+        .switch-link {
+            color: #76c7c0;
+            cursor: pointer;
+            text-align: center;
+            margin-top: 15px;
+            display: block;
+            font-weight: 600;
+            text-decoration: underline;
+        }
+
+        .switch-link:hover {
+            color: #ffffff;
+        }
+
+        .currency-option img {
+            height: 20px;
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-light border-bottom box-shadow mb-3">
+            <div class="container d-flex justify-content-between align-items-center">
+                <a class="navbar-brand d-flex align-items-center" asp-area="" asp-page="/Index">
+                    <img src="~/images/logo.png" alt="FinVest Logo" />
+                    <span class="icon-text">FinVest</span>
+                </a>
+                <div class="slogan">
+                    Budget Smart, Invest Sharp
+                </div>
+                <div id="navbarContent" class="login-signup-links">
+                    <a class="btn btn-dark-custom" href="javascript:void(0)" onclick="showSignUp()">Sign Up</a>
+                    <a class="btn btn-dark-custom" href="javascript:void(0)" onclick="showLogin()">Log In</a>
+
+                </div>
+
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer">
+        <div class="container">
+            &copy; 2024 - FinVest<br>Produced by Kartavya Singh, Phani Bharadwaj Jarugumilli, Saarthak Sinha, Shivam Kharangate
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <!-- Sign Up Modal -->
+    <div class="modal fade" id="signUpModal" tabindex="-1" aria-labelledby="signUpModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content input-styled">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="signUpModalLabel">Sign Up</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="sign-up-email">Email:</label>
+                        <input type="email" id="sign-up-email" class="form-control input-styled">
+                    </div>
+                    <div class="form-group">
+                        <label for="sign-up-password">Password:</label>
+                        <input type="password" id="sign-up-password" class="form-control input-styled">
+                    </div>
+                    <br>
+                    <button onclick="signUp()" class="btn btn-dark-custom">Sign Up</button>
+                    <span class="switch-link" onclick="switchToLogin()">Already have an account? Log In</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content input-styled">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="loginModalLabel">Log In</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="login-email">Email:</label>
+                        <input type="email" id="login-email" class="form-control input-styled">
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Password:</label>
+                        <input type="password" id="login-password" class="form-control input-styled">
+                    </div>
+                    <br>
+                    <button onclick="login()" class="btn btn-dark-custom">Login</button>
+                    <span class="switch-link" onclick="switchToSignUp()">Don't have an account? Sign Up</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Additional Information Modal -->
+    <div class="modal fade" id="additionalInfoModal" tabindex="-1" aria-labelledby="additionalInfoModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content input-styled">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="additionalInfoModalLabel">Complete Your Profile</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="username">Username:</label>
+                        <input type="text" id="username" class="form-control input-styled">
+                    </div>
+                    <div class="form-group">
+                        <label for="full-name">Full Name:</label>
+                        <input type="text" id="full-name" class="form-control input-styled">
+                    </div>
+                    <div class="form-group">
+                        <label for="phone-number">Phone Number:</label>
+                        <input type="text" id="phone-number" class="form-control input-styled">
+                    </div>
+                    <div class="form-group">
+                        <label for="dob">Date of Birth:</label>
+                        <input type="date" id="dob" class="form-control input-styled">
+                    </div>
+                    <div class="form-group">
+                        <label for="country">Country of Residence:</label>
+                        <select id="country" class="form-control input-styled">
+                            <option value="USA">United States</option>
+                            <option value="CHN">China</option>
+                            <option value="IND">India</option>
+                            <option value="BRA">Brazil</option>
+                            <option value="RUS">Russia</option>
+                            <option value="JPN">Japan</option>
+                            <option value="DEU">Germany</option>
+                            <option value="GBR">United Kingdom</option>
+                            <option value="FRA">France</option>
+                            <option value="ITA">Italy</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="currency">Preferred Currency:</label>
+                        <select id="currency" class="form-control input-styled">
+                            <option value="USD" class="currency-option"><img src="~/images/usd.png" alt="USD"> USD - US Dollar</option>
+                            <option value="EUR" class="currency-option"><img src="~/images/eur.png" alt="EUR"> EUR - Euro</option>
+                            <option value="INR" class="currency-option"><img src="~/images/inr.png" alt="INR"> INR - Indian Rupee</option>
+                            <option value="GBP" class="currency-option"><img src="~/images/gbp.png" alt="GBP"> GBP - British Pound</option>
+                            <option value="JPY" class="currency-option"><img src="~/images/jpy.png" alt="JPY"> JPY - Japanese Yen</option>
+                            <option value="CNY" class="currency-option"><img src="~/images/cny.png" alt="CNY"> CNY - Chinese Yuan</option>
+                            <option value="RUB" class="currency-option"><img src="~/images/rub.png" alt="RUB"> RUB - Russian Ruble</option>
+                            <option value="BRL" class="currency-option"><img src="~/images/brl.png" alt="BRL"> BRL - Brazilian Real</option>
+                            <option value="AUD" class="currency-option"><img src="~/images/aud.png" alt="AUD"> AUD - Australian Dollar</option>
+                            <option value="CAD" class="currency-option"><img src="~/images/cad.png" alt="CAD"> CAD - Canadian Dollar</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="annual-income">Annual Income:</label>
+                        <select id="annual-income" class="form-control input-styled">
+                            <option>Less than $5,000</option>
+                            <option>$5,000 - $10,000</option>
+                            <option>$10,000 - $25,000</option>
+                            <option>$25,000 - $100,000</option>
+                            <option>More than $100,000</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="risk-tolerance">Risk Tolerance:</label>
+                        <select id="risk-tolerance" class="form-control input-styled">
+                            <option>Low</option>
+                            <option>Medium</option>
+                            <option>High</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="investment-experience">Investment Experience:</label>
+                        <select id="investment-experience" class="form-control input-styled">
+                            <option>Beginner</option>
+                            <option>Intermediate</option>
+                            <option>Advanced</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="investment-goals">Investment Goals:</label>
+                        <input type="text" id="investment-goals" class="form-control input-styled">
+                    </div><br>
+                    <button onclick="submitAdditionalInfo()" class="btn btn-dark-custom">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Functions -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.6.2/sql-wasm.js"></script>
+    <script>
+        let currentUser = null;
+        const current_user = {};
+
+        let db;
+        function initDatabase() {
+            // Open (or create) the database
+            let request = indexedDB.open("FinvestDB", 1);
+
+            // Handle the upgrade needed event, which occurs when the database is created or the version is upgraded
+            request.onupgradeneeded = function(event) {
+                db = event.target.result;
+
+                // Create an object store (like a table)
+                let userStore = db.createObjectStore("Users", { keyPath: "UserID", autoIncrement: true });
+
+                // Create indexes for searching (not required but useful)
+                userStore.createIndex("Email", "Email", { unique: true });
+                userStore.createIndex("Username", "Username", { unique: false });
+                userStore.createIndex("FullName", "FullName", { unique: false });
+                userStore.createIndex("Password", "Password", { unique: false });
+                userStore.createIndex("PhoneNumber", "PhoneNumber", { unique: false });
+                userStore.createIndex("DateOfBirth", "DateOfBirth", { unique: false });
+                userStore.createIndex("Country", "Country", { unique: false });
+                userStore.createIndex("Currency", "Currency", { unique: false });
+                userStore.createIndex("AnnualIncome", "AnnualIncome", { unique: false });
+                userStore.createIndex("RiskTolerance", "RiskTolerance", { unique: false });
+                userStore.createIndex("InvestmentExperience", "InvestmentExperience", { unique: false });
+                userStore.createIndex("InvestmentGoals", "InvestmentGoals", { unique: false });
+            };
+
+            request.onsuccess = function(event) {
+                db = event.target.result;
+            };
+
+            request.onerror = function(event) {
+                console.error("IndexedDB error: " + event.target.errorCode);
+            };
+        }
+
+        function saveUser(user) {
+            let transaction = db.transaction(["Users"], "readwrite");
+            let objectStore = transaction.objectStore("Users");
+
+            let request = objectStore.add(user);
+
+            request.onsuccess = function(event) {
+                console.log("User data saved successfully!");
+            };
+
+            request.onerror = function(event) {
+                console.error("Error saving user data: " + event.target.errorCode);
+            };
+        }
+
+        function getUserByEmail(email, callback) {
+            let transaction = db.transaction(["Users"], "readonly");
+            let objectStore = transaction.objectStore("Users");
+            let index = objectStore.index("Email");
+
+            let request = index.get(email);
+
+            request.onsuccess = function(event) {
+                if (request.result) {
+                    callback(request.result);
+                } else {
+                    alert("User Not Found!");
+                }
+            };
+
+            request.onerror = function(event) {
+                console.error("Error retrieving user: " + event.target.errorCode);
+            };
+        }
+
+        function getUserByEmailSignUp(email, callback) {
+            let transaction = db.transaction(["Users"], "readonly");
+            let objectStore = transaction.objectStore("Users");
+            let index = objectStore.index("Email");
+
+            let request = index.get(email);
+
+            request.onsuccess = function(event) {
+                if (request.result) {
+                    callback(request.result);
+                } else {
+                    console.error("Create an account!");
+                    const signUpModal = bootstrap.Modal.getInstance(document.getElementById('signUpModal'));
+                    signUpModal.hide();
+                    currentUser = 1;
+                    showAdditionalInfo();
+                }
+            };
+
+            request.onerror = function(event) {
+                console.error("Error retrieving user: " + event.target.errorCode);
+            };
+        }
+
+        function logAllUsers() {
+            let transaction = db.transaction(["Users"], "readonly");
+            let objectStore = transaction.objectStore("Users");
+
+            let request = objectStore.openCursor();
+            request.onsuccess = function(event) {
+                let cursor = event.target.result;
+                if (cursor) {
+                    console.log(cursor.value); // Log the current record
+                    cursor.continue(); // Move to the next record
+                } else {
+                    console.log("All users have been logged.");
+                }
+            };
+
+            request.onerror = function(event) {
+                console.error("Error retrieving users: " + event.target.errorCode);
+            };
+        }
+
+        // Call this function to initialize the database when the page loads
+        document.addEventListener('DOMContentLoaded', initDatabase);
+
+        function checkLoginStatus() {
+            if (currentUser && current_user.fullname) {
+                const fullName = current_user.fullname; // Replace with actual logic to retrieve the full name
+                const initials = fullName.split(' ').map(name => name[0]).join('');
+                document.getElementById('navbarContent').innerHTML = `
+                    <button class="profile-button" onclick="window.location.href='/Profile'">${initials}</button>
+                `;
+            } else {
+                document.getElementById('navbarContent').innerHTML = `
+                    <a class="btn btn-dark-custom" href="javascript:void(0)" onclick="showSignUp()">Sign Up</a>
+                    <a class="btn btn-dark-custom" href="javascript:void(0)" onclick="showLogin()">Log In</a>
+                `;
+            }
+        }
+
+
+        function showSignUp() {
+            const signUpModal = new bootstrap.Modal(document.getElementById('signUpModal'));
+            signUpModal.show();
+        }
+
+        function showLogin() {
+            const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+            loginModal.show();
+        }
+
+        function showAdditionalInfo() {
+            const additionalInfoModal = new bootstrap.Modal(document.getElementById('additionalInfoModal'));
+            additionalInfoModal.show();
+        }
+
+        function signUp() {
+            // Gather the email and password
+            const email = document.getElementById('sign-up-email').value;
+            const password = document.getElementById('sign-up-password').value;
+
+            // Close the sign-up modal and open the additional info modal
+            getUserByEmailSignUp(email, function(user) {
+                if (user) {
+                    alert("Email already registered! Please Log In!")
+                    return
+                }
+            });
+        }
+
+        function submitAdditionalInfo() {
+            const user = {
+                Username: document.getElementById('username').value,
+                FullName: document.getElementById('full-name').value,
+                Email: document.getElementById('sign-up-email').value,
+                Password: document.getElementById('sign-up-password').value,
+                PhoneNumber: document.getElementById('phone-number').value,
+                DateOfBirth: document.getElementById('dob').value,
+                Country: document.getElementById('country').value,
+                Currency: document.getElementById('currency').value,
+                AnnualIncome: document.getElementById('annual-income').value,
+                RiskTolerance: document.getElementById('risk-tolerance').value,
+                InvestmentExperience: document.getElementById('investment-experience').value,
+                InvestmentGoals: document.getElementById('investment-goals').value
+            };
+
+            saveUser(user);
+
+            current_user.username = user.Username;
+            current_user.fullName = user.FullName;
+            current_user.email = user.Email;
+            current_user.phoneNumber = user.PhoneNumber;
+            current_user.dateOfBirth = user.DateOfBirth;
+            current_user.country = user.Country;
+            current_user.currency = user.Currency;
+            current_user.annualIncome = user.AnnualIncome;
+            current_user.riskTolerance = user.RiskTolerance;
+            current_user.investmentExperience = user.InvestmentExperience;
+            current_user.investmentGoals = user.InvestmentGoals;
+
+            alert('Sign up successful!');
+            checkLoginStatus();
+            // Redirect to the Finances page with the data as query parameters
+            const url = `/Finances?username=${encodeURIComponent(user.Username)}&fullName=${encodeURIComponent(user.FullName)}&email=${encodeURIComponent(user.Email)}&phoneNumber=${encodeURIComponent(user.PhoneNumber)}&dateOfBirth=${encodeURIComponent(user.DateOfBirth)}&country=${encodeURIComponent(user.Country)}&currency=${encodeURIComponent(user.Currency)}&annualIncome=${encodeURIComponent(user.AnnualIncome)}&riskTolerance=${encodeURIComponent(user.RiskTolerance)}&investmentExperience=${encodeURIComponent(user.InvestmentExperience)}&investmentGoals=${encodeURIComponent(user.InvestmentGoals)}`;
+            console.log(url);
+            window.location.href = url;
+        }
+
+        function login() {
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            getUserByEmail(email, function(user) {
+                if (user && user.Password === password) {
+                    console.log("Login successful!");
+                    // Store user details in current_user object and redirect as needed
+                    current_user.username = user.Username;
+                    current_user.fullName = user.FullName;
+                    current_user.email = user.Email;
+                    current_user.phoneNumber = user.PhoneNumber;
+                    current_user.dateOfBirth = user.DateOfBirth;
+                    current_user.country = user.Country;
+                    current_user.currency = user.Currency;
+                    current_user.annualIncome = user.AnnualIncome;
+                    current_user.riskTolerance = user.RiskTolerance;
+                    current_user.investmentExperience = user.InvestmentExperience;
+                    current_user.investmentGoals = user.InvestmentGoals;
+                    checkLoginStatus();
+                    // Redirect to the desired page with the user details
+                    const url = `/Finances?username=${encodeURIComponent(user.Username)}&fullName=${encodeURIComponent(user.FullName)}&email=${encodeURIComponent(user.Email)}&phoneNumber=${encodeURIComponent(user.PhoneNumber)}&dateOfBirth=${encodeURIComponent(user.DateOfBirth)}&country=${encodeURIComponent(user.Country)}&currency=${encodeURIComponent(user.Currency)}&annualIncome=${encodeURIComponent(user.AnnualIncome)}&riskTolerance=${encodeURIComponent(user.RiskTolerance)}&investmentExperience=${encodeURIComponent(user.InvestmentExperience)}&investmentGoals=${encodeURIComponent(user.InvestmentGoals)}`;
+                    window.location.href = url;
+                } else if (user && user.Password != password) {
+                    alert("Invalid email or password.");
+                }
+            });
+        }
+
+        function updateUser(user) {
+            let transaction = db.transaction(["Users"], "readwrite");
+            let objectStore = transaction.objectStore("Users");
+
+            let request = objectStore.put(user);
+
+            request.onsuccess = function(event) {
+                console.log("User data updated successfully!");
+            };
+
+            request.onerror = function(event) {
+                console.error("Error updating user data: " + event.target.errorCode);
+            };
+        }
+
+        function deleteUser(userID) {
+            let transaction = db.transaction(["Users"], "readwrite");
+            let objectStore = transaction.objectStore("Users");
+
+            let request = objectStore.delete(userID);
+
+            request.onsuccess = function(event) {
+                console.log("User data deleted successfully!");
+            };
+
+            request.onerror = function(event) {
+                console.error("Error deleting user data: " + event.target.errorCode);
+            };
+        }
+
+        dbRequest.onerror = function(event) {
+            console.error("Database error: " + event.target.errorCode);
+        };
+
+        transaction.onerror = function(event) {
+            console.error("Transaction error: " + event.target.errorCode);
+        };
+
+        function switchToLogin() {
+            const signUpModal = bootstrap.Modal.getInstance(document.getElementById('signUpModal'));
+            signUpModal.hide();
+            showLogin();
+        }
+
+        function switchToSignUp() {
+            const loginModal = bootstrap.Modal.getInstance(document.getElementById('loginModal'));
+            loginModal.hide();
+            showSignUp();
+        }
+
+        // Check the login status on page load
+        document.addEventListener('DOMContentLoaded', checkLoginStatus);
+
+    </script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
